@@ -20,9 +20,6 @@ export default function NotifyProvider({ children }: NotifyProps) {
 	const [notify, setNotify] = useState<INotifyProps>({});
 
 	useEffect(() => {
-
-		console.log(notify.open);
-		
 		if (notify.open) {
 			setTimeout(() => {
 				setNotify({ open: false, message: "" });

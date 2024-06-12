@@ -1,12 +1,58 @@
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import InfoBox from "../../components/info";
 import { Icon } from "@iconify/react";
 import Input from "../../components/input";
 import { Link } from "react-router-dom";
+import { useContextApi } from "../../context/useAuth";
+import { useNotify } from "../../context/useNotify";
 
 export default function Login() {
+	const { signIn } = useContextApi();
+
+	const { setNotify, notify } = useNotify();
+
+	const handlerSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+		event.preventDefault();
+		const email = event.target.elements?.email.value;
+		const password = event.target.elements?.password.value;
+
+		if (email == "" || !email) {
+			setNotify({
+				message: "O campo de email não pode ficar vazio.",
+				icon: "flat-color-icons:delete-database",
+				open: true,
+			});
+			return;
+		}
+
+		if (password == "" || !password) {
+			setNotify({
+				message: "O campo de senha não pode ficar vazio.",
+				icon: "flat-color-icons:delete-database",
+				open: true,
+			});
+			return;
+		}
+
+		const result = await signIn({ email: email, password: password });
+
+		if (result!) {
+			setNotify({
+				message: result.message!,
+				icon: "flat-color-icons:accept-database",
+				open: true,
+			});
+		} else {
+			setNotify({
+				message: result.message!,
+				icon: "flat-color-icons:delete-database",
+				open: true,
+			});
+		}
+	};
+
 	return (
-		<div className="h-full  flex flex-col w-full p-[34px] gap-1">
+		<div className="h-full flex flex-col w-full p-[34px] gap-1 relative max-sm:px-[10px]">
 			<motion.div
 				initial={{ opacity: 0, y: 10 }}
 				animate={{ opacity: 1, y: 0 }}
@@ -15,6 +61,23 @@ export default function Login() {
 			>
 				<img src="assets/mini-logo.png" alt="" />
 			</motion.div>
+
+			<AnimatePresence>
+				{notify.open && (
+					<motion.div
+						initial={{ opacity: 0, y: 10 }}
+						animate={{ opacity: 1, y: 0 }}
+						exit={{ opacity: 0, y: 10 }}
+						transition={{ ease: "easeInOut", duration: 1 }}
+						className="hidden absolute max-2xl:flex max-2xl:bottom-2  items-center gap-1   right-0  mr-2 "
+					>
+						<Icon icon={notify.icon!} color="" fontSize={20} />
+						<span className="text-sm text-white font-medium font-['Inter'] text-center ">
+							{notify.message}
+						</span>
+					</motion.div>
+				)}
+			</AnimatePresence>
 			<div className=" flex  h-full justify-center flex-col items-center  max-lg:hidden">
 				<div className="flex relative w-full  max-w-[900px] h-[350px] justify-center items-center ">
 					<motion.div
@@ -68,7 +131,10 @@ export default function Login() {
 					</motion.div>
 				</div>
 			</div>
-			<div className="w-full h-full justify-center flex flex-col gap-5 items-center">
+			<form
+				onSubmit={handlerSubmit}
+				className="w-full h-full justify-center flex flex-col gap-5 items-center"
+			>
 				<motion.div
 					initial={{ opacity: 0, y: 10 }}
 					animate={{ opacity: 1, y: 0 }}
@@ -80,7 +146,7 @@ export default function Login() {
 					</h1>
 					<Icon icon={"guidance:down-arrow"} color="#FABA48" fontSize={30} />
 				</motion.div>
-				<form className="mt-4 flex flex-col max-w-[423px] w-full justify-center items-center gap-5">
+				<div className="mt-4 flex flex-col max-w-[423px] w-full justify-center items-center gap-5">
 					<motion.div
 						initial={{ opacity: 0, y: 10 }}
 						animate={{ opacity: 1, y: 0 }}
@@ -90,6 +156,7 @@ export default function Login() {
 						<Input
 							icon="mdi:person"
 							type="email"
+							name="email"
 							title="INFORME SEU EMAIL AQUI"
 						/>
 					</motion.div>
@@ -102,10 +169,11 @@ export default function Login() {
 						<Input
 							icon="mdi:password"
 							type="password"
+							name="password"
 							title="INFORME SUA SENHA AQUI"
 						/>
 					</motion.div>
-				</form>
+				</div>
 
 				<motion.div
 					initial={{ opacity: 0, y: 10 }}
@@ -128,7 +196,7 @@ export default function Login() {
 				>
 					CONTINUAR
 				</motion.button>
-			</div>
+			</form>
 		</div>
 	);
 }

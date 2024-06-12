@@ -7,3 +7,7 @@
 	padding: 0;
 	box-sizing: border-box;
 }
+
+input:-webkit-autofill {
+	-webkit-box-shadow: 0 0 0 30px rgba(27, 33, 49, 1) inset;
+}

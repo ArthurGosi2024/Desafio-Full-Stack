@@ -117,7 +117,7 @@ export default function Register(props: RegisterProps) {
 						<Input
 							icon="mdi:password"
 							type="password"
-							title="INFORME SUA SENHA AQUI"
+							title="CONFIRME SUA SENHA AQUI"
 						/>
 					</motion.div>
 				</form>

@@ -1,3 +1,5 @@
+import { IResponse } from "./IResponse";
+
 export interface IAuth {
 	token: string;
 }
@@ -9,7 +11,7 @@ export interface IUser {
 
 export interface IAuthContext extends IAuth {
 	token: string;
-	signIn: (user: IUser) => void;
-	register: (user: IUser) => void;
-	signOut: (token: string) => void;
+	signIn: (user: IUser) => void | Promise<IResponse>;
+	register: (user: IUser) => void | Promise<IResponse>;
+	signOut: (token: string) => void | Promise<IResponse>;
 }

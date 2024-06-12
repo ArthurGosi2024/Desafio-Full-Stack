@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma.service';
 
-interface IUser {
+export interface IUser {
+  id?: number;
   email: string;
   password: string;
 }

@@ -1,5 +1,8 @@
-import axios from "axios";
-
-axios.defaults.baseURL = "http://localhost:3001/";
-axios.defaults.headers["Content-Type"] = "application/json";
-axios.defaults.timeout = 10000;
+export const configAxios = {
+	baseURL: "http://localhost:3000",
+	headers: {
+		"Access-Control-Allow-Origin": "*",
+		"Access-Control-Allow-Methods": "GET,PUT,POST,DELETE",
+		"Content-Type": "application/json",
+	},
+};

@@ -5,6 +5,7 @@ import Input from "../../components/input";
 import { Link } from "react-router-dom";
 import { useContextApi } from "../../context/useAuth";
 import { useNotify } from "../../context/useNotify";
+import { IResponse } from "../../@types/IResponse";
 
 export default function Login() {
 	const { signIn } = useContextApi();
@@ -34,17 +35,18 @@ export default function Login() {
 			return;
 		}
 
-		const result = await signIn({ email: email, password: password });
+		const result : IResponse | void = await signIn({ email: email, password: password });
+		
 
-		if (result!) {
+		if (result?.status) {
 			setNotify({
-				message: result.message!,
+				message: result.message,
 				icon: "flat-color-icons:accept-database",
 				open: true,
 			});
 		} else {
 			setNotify({
-				message: result.message!,
+				message:result?.message,
 				icon: "flat-color-icons:delete-database",
 				open: true,
 			});

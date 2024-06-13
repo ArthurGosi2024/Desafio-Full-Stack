@@ -9,7 +9,7 @@ export interface IUser {
 
 interface IUserRepositories {
   create: (user: IUser) => void;
-  find: (user: IUser) => Promise<IUser | boolean>;
+  find: (user: IUser) => Promise<IUser>;
   delete: (user: IUser) => void;
 }
 
@@ -24,12 +24,11 @@ export class UserRepositories implements IUserRepositories {
       },
     });
   }
-  async find(user: IUser): Promise<boolean | IUser> {
+  async find(user: Partial<IUser>): Promise<IUser> {
     const findUser = this.prisma.user.findFirst({
-      where: { email: user.email },
+      where: { ...user },
     });
-
-    return findUser ?? false;
+    return findUser;
   }
   async delete({ email }: IUser) {
     this.prisma.user.delete({

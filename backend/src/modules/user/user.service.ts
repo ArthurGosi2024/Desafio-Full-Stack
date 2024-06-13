@@ -1,8 +1,8 @@
 import { HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common';
 import { UserRepositories } from './user.repositories';
-import { SignInUserDTO } from '../../DTOs/signIn-user-dto';
+import { SignInUserDTO } from './DTOs/signIn-user-dto';
 import { JwtService } from '@nestjs/jwt';
-import { RegisterUserDTO } from '../../DTOs/register-user-dto';
+import { RegisterUserDTO } from './DTOs/register-user-dto';
 import { ErrorHttpException } from '../../exceptions/error-http';
 
 @Injectable()
@@ -22,7 +22,7 @@ export class UserService {
     }
 
     throw new ErrorHttpException(
-      'Usuario não encontrado.',
+      'Credenciais inválidas ou erro de validação.',
       HttpStatus.CONFLICT,
     );
   }

@@ -1,37 +1,26 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma.service';
-import { IUser } from '../user/user.repositories';
-
-interface IEmblemsProps {
-  id?: number;
-  slug: string;
-  name: string;
-  userId?: number;
-  image: string;
-}
+import { IEmblemsProps } from './interfaces/IEmblems';
+import { IPackageEmblems } from './interfaces/IPackageEmblems';
 
 interface IEmblemsRepositories {
-  createEmblems: (emblems: IEmblemsProps) => void;
-  createEmblemsAll: (emblems: IEmblemsProps[]) => void;
+  createEmblems: (emblems: IPackageEmblems) => void;
   findAll: () => Promise<IEmblemsProps[]>;
-  findByEmblems: (emblems: IEmblemsProps) => Promise<IEmblemsProps | boolean>;
-  deleteByEmblems: (emblems: IEmblemsProps) => void;
+  findByEmblems: (slug: string) => Promise<IEmblemsProps | {}>;
+  deleteByEmblems: (packageEmblems: IPackageEmblems) => void;
   deleteAllEmbles: () => void;
 }
 
 @Injectable()
 export class EmblemsRepositories implements IEmblemsRepositories {
   constructor(private readonly prisma: PrismaService) {}
-  async createEmblems(emblems: IEmblemsProps) {
-    await this.prisma.emblems.create({ data: emblems });
-  }
 
-  async createEmblemsAll(emblems: IEmblemsProps[]) {
-    await this.prisma.emblems.createMany({
-      data: emblems,
-      skipDuplicates: false,
+  async createEmblems({ image, name, slug, userId }: IPackageEmblems) {
+    await this.prisma.emblems.create({
+      data: { image, name, slug, userId: userId },
     });
   }
+
 
   async findAll(): Promise<IEmblemsProps[] | []> {
     const findAll = await this.prisma.emblems.findMany();
@@ -41,21 +30,24 @@ export class EmblemsRepositories implements IEmblemsRepositories {
     }
     return [];
   }
-  async findByEmblems(
-    emblems: IEmblemsProps,
-  ): Promise<IEmblemsProps | boolean> {
+  async findByEmblems(slug: string): Promise<IEmblemsProps> {
     const findBy = await this.prisma.emblems.findFirst({
-      where: { slug: emblems.slug },
+      where: { slug: slug },
     });
 
     if (findBy) {
       return findBy;
     }
-
-    return false;
   }
-  async deleteByEmblems(emblems: IEmblemsProps) {
-    await this.prisma.emblems.delete({ where: { id: emblems.id } });
+  async deleteByEmblems(packageEmblems : IPackageEmblems) {
+
+    await this.prisma.emblems.delete({
+      
+      where: {
+        id: packageEmblems.id,
+        slug: packageEmblems.slug,
+      },
+    });
   }
   async deleteAllEmbles() {
     await this.prisma.emblems.deleteMany();

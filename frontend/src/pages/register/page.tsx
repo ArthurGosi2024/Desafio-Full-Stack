@@ -1,10 +1,11 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Input from "../../components/input";
 import { Icon } from "@iconify/react";
 import InfoBox from "../../components/info";
 import { useNotify } from "../../context/useNotify";
 import { useContextApi } from "../../context/useAuth";
+import { IResponse } from "../../@types/IResponse";
 
 export default function Register() {
 	const { register } = useContextApi();
@@ -13,8 +14,8 @@ export default function Register() {
 
 	const handlerSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		const emailRegister = event.target.elements?.emailRegister.value;
-		const passwordRegister = event.target.elements?.passwordRegister.value;
+		const emailRegister = event.target.elements.emailRegister.value;
+		const passwordRegister = event.target.elements.passwordRegister.value;
 		const confirmPasswordRegister =
 			event.target.elements?.confirmPasswordRegister.value;
 
@@ -55,20 +56,20 @@ export default function Register() {
 			return;
 		}
 
-		const result = await register({
+		const result: IResponse | void = await register({
 			email: emailRegister,
 			password: passwordRegister,
 		});
 
 		if (result!) {
 			setNotify({
-				message: result.message!,
+				message: result.message,
 				icon: "flat-color-icons:accept-database",
 				open: true,
 			});
 		} else {
 			setNotify({
-				message: result.message!,
+				message: result!.message,
 				icon: "flat-color-icons:delete-database",
 				open: true,
 			});

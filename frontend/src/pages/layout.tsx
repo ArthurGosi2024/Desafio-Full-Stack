@@ -1,10 +1,25 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useNotify } from "../context/useNotify";
 import { Icon } from "@iconify/react";
+import { useEffect } from "react";
+import { useContextApi } from "../context/useAuth";
 
 export default function Layout() {
 	const { notify } = useNotify();
+
+	const { token } = useContextApi();
+	const navigate = useNavigate();
+	const { pathname } = useLocation();
+
+	useEffect(() => {
+		if (pathname == "/" || pathname == "/register") {
+			if (token !== "") {
+				navigate("/dashboard");
+			}
+		}
+	}, [token]);
+
 	return (
 		<div className="flex w-screen  min-h-screen bg-[#E7E5E4] overflow-hidden">
 			<motion.div

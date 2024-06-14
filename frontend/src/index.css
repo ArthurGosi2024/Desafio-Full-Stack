@@ -10,4 +10,5 @@
 
 input:-webkit-autofill {
 	-webkit-box-shadow: 0 0 0 30px rgba(27, 33, 49, 1) inset;
+	-webkit-text-fill-color: #57658f;
 }

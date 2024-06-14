@@ -8,7 +8,7 @@ export default {
 				'2xl-medium': '970px', 	
 			},
 			colors: {
-				'amber-300': "#FABA48 ",
+				'amber-300': "#FABA48",
 			},
 			fontFamily: {
 				inter: ["Inter", "Poppins"],

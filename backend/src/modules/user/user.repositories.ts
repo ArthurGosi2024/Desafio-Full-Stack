@@ -16,22 +16,21 @@ interface IUserRepositories {
 @Injectable()
 export class UserRepositories implements IUserRepositories {
   constructor(private readonly prisma: PrismaService) {}
-  async create({ email, password }: IUser) {
-    this.prisma.user.create({
+  async create(user: IUser) {
+    await this.prisma.user.create({
       data: {
-        email,
-        password,
+        ...user,
       },
     });
   }
   async find(user: Partial<IUser>): Promise<IUser> {
-    const findUser = this.prisma.user.findFirst({
+    const findUser = await this.prisma.user.findFirst({
       where: { ...user },
     });
     return findUser;
   }
   async delete({ email }: IUser) {
-    this.prisma.user.delete({
+    await this.prisma.user.delete({
       where: {
         email,
       },

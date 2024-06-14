@@ -35,8 +35,10 @@ export default function Login() {
 			return;
 		}
 
-		const result : IResponse | void = await signIn({ email: email, password: password });
-		
+		const result: IResponse | void = await signIn({
+			email: email,
+			password: password,
+		});
 
 		if (result?.status) {
 			setNotify({
@@ -46,7 +48,7 @@ export default function Login() {
 			});
 		} else {
 			setNotify({
-				message:result?.message,
+				message: result?.message,
 				icon: "flat-color-icons:delete-database",
 				open: true,
 			});

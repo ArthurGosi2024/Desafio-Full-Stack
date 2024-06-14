@@ -12,31 +12,29 @@ export class EmblemsService {
     private readonly emblemsUserCase: UseCaseEmblemsWithUser,
   ) {}
 
- 
   async getAllEmblems(): Promise<IEmblemsProps[] | []> {
     const findAll = await this.emblemsRepositories.findAll();
 
     if (findAll.length == 0) {
       throw new ErrorHttpException(
-        'Não foi encontrado, nenhum emblema.',
+        'Nenhum emblema encontrado.',
         HttpStatus.NOT_FOUND,
       );
     }
     return findAll;
   }
 
-  async getByEmblems(slug: string): Promise<IEmblemsProps | {}> {
-    const find = await this.emblemsRepositories.findByEmblems(slug);
+  async getByAllEmblems(email: string): Promise<IEmblemsProps | {}> {
+    const find = await this.emblemsRepositories.findByAllEmblems(email);
 
     if (!find) {
       throw new ErrorHttpException(
-        'Não foi encontrado, nenhum emblema.',
+        'Nenhum emblema encontrado.',
         HttpStatus.NOT_FOUND,
       );
     }
     return find ?? false;
   }
-
 
   async createEmblemsUser(packageEmblems: IPackageEmblems) {
     return await this.emblemsUserCase.addBadgeToUser(packageEmblems);

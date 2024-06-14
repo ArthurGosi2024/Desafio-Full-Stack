@@ -7,6 +7,8 @@ interface IEmblemsRepositories {
   createEmblems: (emblems: IPackageEmblems) => void;
   findAll: () => Promise<IEmblemsProps[]>;
   findByEmblems: (slug: string) => Promise<IEmblemsProps | {}>;
+  findByAllEmblems: (email: string) => Promise<IEmblemsProps | {}>;
+
   deleteByEmblems: (packageEmblems: IPackageEmblems) => void;
   deleteAllEmbles: () => void;
 }
@@ -20,7 +22,6 @@ export class EmblemsRepositories implements IEmblemsRepositories {
       data: { image, name, slug, userId: userId },
     });
   }
-
 
   async findAll(): Promise<IEmblemsProps[] | []> {
     const findAll = await this.prisma.emblems.findMany();
@@ -39,10 +40,22 @@ export class EmblemsRepositories implements IEmblemsRepositories {
       return findBy;
     }
   }
-  async deleteByEmblems(packageEmblems : IPackageEmblems) {
 
+  async findByAllEmblems(email: string): Promise<IEmblemsProps[]> {
+    const findBy = await this.prisma.emblems.findMany({
+      where: {
+        user: {
+          email: email,
+        },
+      },
+    });
+
+    if (findBy.length > 0) {
+      return findBy;
+    }
+  }
+  async deleteByEmblems(packageEmblems: IPackageEmblems) {
     await this.prisma.emblems.delete({
-      
       where: {
         id: packageEmblems.id,
         slug: packageEmblems.slug,

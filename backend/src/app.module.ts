@@ -3,19 +3,21 @@ import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { UserModule } from './modules/user/user.module';
 import { EmblemsModule } from './modules/emblems/emblems.module';
-import { ThrottlerModule } from '@nestjs/throttler';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { APP_GUARD } from '@nestjs/core';
+import { ErrorRateLimit } from './exceptions/error-rate-limit';
 
 @Module({
   imports: [
     JwtModule.register({
       global: true,
       secret: process.env.TOKEN_SECRET,
-      signOptions: { expiresIn: '24h' },
+      signOptions: { expiresIn: '30m' },
     }),
 
     ThrottlerModule.forRoot([
       {
-        ttl: 50000,
+        ttl: 10000,
         limit: 12,
       },
     ]),
@@ -23,6 +25,12 @@ import { ThrottlerModule } from '@nestjs/throttler';
     EmblemsModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: ErrorRateLimit
+    }
+    
+  ],
 })
 export class AppModule {}

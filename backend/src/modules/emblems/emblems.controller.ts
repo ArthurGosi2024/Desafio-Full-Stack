@@ -65,7 +65,7 @@ export class EmblemsController {
   @ApiBody({ type: DeletePackageEmblemsDTO })
   @ApiResponse({
     status: 202,
-    description: 'Emblema do usuário removidos com sucesso.',
+    description: 'Emblema do usuário removido com sucesso.',
   })
   @ApiResponse({
     status: 404,

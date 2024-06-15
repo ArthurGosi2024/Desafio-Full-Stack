@@ -13,6 +13,7 @@ import { useContextApi } from "./context/useAuth";
 import LayoutDashboard from "./pages/dashboard/layout";
 import Dashboard from "./pages/dashboard/page";
 import GetEmblems from "./pages/dashboard/getEmblems/page";
+import Perfil from "./pages/dashboard/perfil/page";
 
 export default function Router() {
 	const { token } = useContextApi();
@@ -29,6 +30,7 @@ export default function Router() {
 					<Route path="/dashboard" element={<LayoutDashboard />}>
 						<Route path="/dashboard" element={<Dashboard />} />
 						<Route path="/dashboard/getEmblems" element={<GetEmblems />} />
+						<Route path="/dashboard/perfil" element={<Perfil />} />
 					</Route>
 				)}
 			</Routes>

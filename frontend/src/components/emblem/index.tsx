@@ -19,7 +19,7 @@ export default function Emblem({
 						? "2px solid #FABA48"
 						: "2px solid transparent",
 			}}
-			className={`relative bg-gray-900   rounded-lg overflow-hidden shadow-xl  transition-colors hover:scale-105`}
+			className={`relative bg-gray-900   w-full h-full rounded-lg overflow-hidden shadow-xl  transition-colors hover:scale-105`}
 		>
 			<img className="w-full h-56 object-cover" src={image} alt={name} />
 			<div className="absolute inset-0 bg-gradient-to-b from-transparent to-gray-900 opacity-90"></div>

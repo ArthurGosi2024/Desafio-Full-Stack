@@ -9,7 +9,7 @@ export default function LayoutDashboard() {
 
 	const { notify } = useNotify();
 	return (
-		<div className="h-screen overflow-hidden bg-[#0E0F17]  p-5">
+		<div className="h-screen w-full overflow-hidden bg-[#0E0F17]  p-5">
 			<div className="bg-[#0A0B12] relative w-full h-full p-10 flex flex-col gap-5">
 			<AnimatePresence>
 				{notify.open && (
@@ -34,9 +34,9 @@ export default function LayoutDashboard() {
 						DASHBOARD
 					</div>
 				</header>
-				<div className="flex  h-full gap-5 ">
-					<div className=" flex flex-col gap-[92px]">
-						<div className=" flex flex-col gap-3  w-[240px]">
+				<div className="flex  h-full gap-5  max-lg:flex-col">
+					<div className=" flex flex-col gap-[92px] max-lg:hidden">
+						<div className=" flex flex-col gap-3  w-[240px] ">
 							<NavBar
 								icon="mdi:cards"
 								router="/dashboard/"
@@ -57,7 +57,7 @@ export default function LayoutDashboard() {
 							/>
 						</div>
 					</div>
-					<div className="h-full flex items-center ">
+					<div className="h-full flex items-center max-lg:hidden">
 						<div
 							style={{
 								background:
@@ -66,7 +66,7 @@ export default function LayoutDashboard() {
 							className="w-[1px] h-3/4 "
 						></div>
 					</div>
-					<main className="  w-full">
+					<main className=" overflow-auto w-full  h-full">
 						<Outlet />
 					</main>
 				</div>

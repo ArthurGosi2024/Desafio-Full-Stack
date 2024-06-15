@@ -7,8 +7,9 @@ import { Icon } from "@iconify/react";
 import axios from "axios";
 import { motion } from "framer-motion";
 import Emblem from "../../components/emblem";
+import Header from "../../components/header";
 
-export default function Dashboard() {
+export default function Page() {
 	const [myEmblems, setMyEmblems] = useState<IEmblems[]>([]);
 	const [currentPage, setCurrentPage] = useState<number>(1);
 
@@ -71,17 +72,11 @@ export default function Dashboard() {
 			transition={{ ease: "easeInOut", duration: 0.5 }}
 			className="flex flex-col gap-5 h-[619px]"
 		>
-			<header className="flex gap-2 items-center">
-				<div className="w-[15px] h-[38px] bg-amber-300" />
-				<div className="text-white text-2xl font-medium font-['Inter'] tracking-wide">
-					Meus Emblemas
-				</div>
-			</header>
+			<Header content="Meus Emblemas"/>
 
 			{currentEmblems.length > 0 ? (
 				<main className="max-h-[619px] justify-center items-center grid grid-cols-3 w-full gap-6 h-full">
 					{currentEmblems.map((emblem, index) => (
-						
 						<Emblem key={index} {...emblem} index={index}/>
 					))}
 				</main>
